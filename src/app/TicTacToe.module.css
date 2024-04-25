@@ -1,0 +1,129 @@
+@property --lighter-color {
+  syntax: "<color>";
+  initial-value: #162d47;
+  inherits: false;
+}
+
+@property --darker-color {
+  syntax: "<color>";
+  initial-value: #090e15;
+  inherits: false;
+}
+
+@property --element-color {
+  syntax: "<color>";
+  initial-value: #fff;
+  inherits: false;
+}
+
+.cell:hover:enabled {
+  --lighter-color: #1d4067;
+  --darker-color: #08101c;
+}
+
+.cell {
+  --lighter-color: #162d47;
+  --darker-color: #090e15;
+  border-radius: 10px;
+  background-image: linear-gradient(
+    135deg,
+    var(--lighter-color),
+    var(--darker-color)
+  );
+  box-shadow: 0 0 0 0 transparent,
+    inset -0.5px -0.25px 1px 0.5px hsl(225.09deg 100% 68.95% / 12%),
+    inset 1px 1px 0 0 hsl(215.18deg 4.44% 47.8% / 11%);
+  transition: all 0.5s, --lighter-color 0.5s, --darker-color 0.5s;
+}
+
+.cell.filled-cell {
+  --lighter-color: #fff;
+  --darker-color: #fff;
+  box-shadow: 0 0 12px 0px #fff;
+}
+
+.cell.will-disappear-cell {
+  --lighter-color: #5988be;
+  --darker-color: #183154;
+  box-shadow: 0 0 12px 0px #2a486d;
+  animation: disappear 0.5s;
+}
+
+.game-over .cell {
+  --lighter-color: #1d4067;
+  --darker-color: #08101c;
+  box-shadow: none;
+}
+
+.cell.winning-cell {
+  --lighter-color: #baffe9;
+  --darker-color: #20c691;
+  box-shadow: 0 0 12px 0px #54efbe;
+
+  color: #000;
+  font-weight: bold;
+}
+
+.cell.winning-cell:hover {
+  background-color: #8aff7b;
+  color: #000;
+  font-weight: bold;
+}
+
+.cross {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  --element-color: white;
+  width: 42px;
+  height: 42px;
+  border: 4px solid var(--element-color);
+  border-radius: 50%;
+  transition: --element-color 0.5s;
+}
+
+.cross:before,
+.cross:after {
+  --element-color: white;
+  position: absolute;
+  content: " ";
+  height: 42px;
+  width: 4px;
+  background-color: var(--element-color);
+  transition: --element-color 0.5s;
+}
+.cross:before {
+  transform: rotate(45deg);
+}
+.cross:after {
+  transform: rotate(-45deg);
+}
+
+.cell.filled-cell .cross:before,
+.cell.filled-cell .cross:after,
+.cell.filled-cell .circle {
+  --element-color: #3a3c52;
+}
+
+.cell.will-disappear-cell .cross:before,
+.cell.will-disappear-cell .cross:after,
+.cell.will-disappear-cell .circle {
+  --element-color: #88abc7;
+}
+
+.game-over .cell.filled-cell .cross:before,
+.game-over .cell.filled-cell .cross:after,
+.game-over .cell.filled-cell .circle {
+  --element-color: #6385b3;
+}
+
+.cell.winning-cell.filled-cell .cross:before,
+.cell.winning-cell.filled-cell .cross:after,
+.cell.winning-cell.filled-cell .circle {
+  --element-color: #0c714e;
+}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import TicTacToe from "./TicTacToe";
+import TicTacToe from "./game/components/TicTacToe";
 import Homepage from "../components/Homepage/Homepage.component";
 
 export default function Home() {

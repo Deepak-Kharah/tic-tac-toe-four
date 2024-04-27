@@ -4,7 +4,7 @@
 
 body {
   color: #fff;
-  background: radial-gradient(circle at center, transparent, rgb(3 2 19))
-    rgb(18 30 58);
+  background: radial-gradient(circle at center, #2a3f6f, rgb(3 2 19))
+    rgb(3 2 19);
   height: 100svh;
 }

@@ -1,0 +1,10 @@
+.button {
+  --lighter-color: #162d47;
+  --darker-color: #090e15;
+
+  background-image: linear-gradient(
+    135deg,
+    var(--lighter-color),
+    var(--darker-color)
+  );
+}

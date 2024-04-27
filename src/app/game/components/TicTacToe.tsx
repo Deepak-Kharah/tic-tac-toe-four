@@ -1,101 +1,54 @@
 "use client";
 
+import { effect } from "@preact/signals";
 import classNames from "classnames";
 import { useState } from "react";
 import { didWin } from "../gameLogic";
-import { Board, Cell } from "../interface/ticTacToe.type";
-import { winnerSignal } from "../signal";
+import { board } from "../signal";
 import { Row } from "./Row";
 import styles from "./TicTacToe.module.css";
-
-function getDefaultBoard(): Board {
-  return [
-    [
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-    ],
-    [
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-    ],
-    [
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-      { value: null, willDisappear: false, winningCell: false },
-    ],
-  ];
-}
+import { isXTurn as isXTurnSignal } from "../signal";
+import { Circle, Cross } from "./Pieces";
 
 function TicTacToe() {
-  const [board, setBoard] = useState<Board>(getDefaultBoard);
-  const [history, setHistory] = useState<{ x: number; y: number }[]>([]);
-  const [disappearing, setDisappearing] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
+  const [gameOver, setGameOver] = useState(false);
   const [isXTurn, setIsXTurn] = useState(true);
 
-  function handleClick(row: number, col: number) {
-    if (board[row][col].value) {
-      return;
-    }
-
-    const newBoard = structuredClone(board);
-    const newHistory = structuredClone(history);
-
-    // set new cells
-    newBoard[row][col].value = isXTurn ? "X" : "O";
-    newHistory.push({ x: row, y: col });
-
-    const winner = didWin(newBoard);
-
+  effect(() => {
+    const winner = didWin(board.value);
     if (winner) {
-      winnerSignal.value = winner[0];
-      winner[1].forEach(([x, y]) => {
-        newBoard[x][y].winningCell = true;
-      });
-    } else {
-      // reset last cell
-      if (disappearing) {
-        const { x, y } = disappearing;
-        newBoard[x][y].value = null;
-      }
-
-      // Set current disappearing cell
-      if (newHistory.length === 6) {
-        const { x, y } = newHistory[0];
-        newBoard[x][y].willDisappear = true;
-        setDisappearing({ x, y });
-        newHistory.shift();
-      }
-    }
-
-    if (disappearing) {
-      const { x, y } = disappearing;
-      newBoard[x][y].willDisappear = false;
-    }
-
-    setBoard(newBoard);
-    setHistory(newHistory);
-    setIsXTurn(!isXTurn);
-  }
+      if (winner && !gameOver) setGameOver(true);
+    } else if (isXTurn !== isXTurnSignal.value) setIsXTurn(isXTurnSignal.value);
+  });
 
   return (
     <>
-      <section>
-        {!!winnerSignal.value && <div>{winnerSignal.value} wins!</div>}
+      <section className="flex gap-2 py-5 items-center">
+        <div
+          className={classNames("size-20 flex items-center justify-center", {
+            [styles.active]: isXTurn,
+          })}
+        >
+          <Cross />
+        </div>
+        <div className="font-extrabold text-3xl size-20 flex items-center justify-center text-slate-400 ">
+          --
+        </div>
+        <div
+          className={classNames("size-20 flex items-center justify-center", {
+            [styles.active]: !isXTurn,
+          })}
+        >
+          <Circle />
+        </div>
       </section>
       <div
         className={classNames("flex flex-col gap-2", {
-          [styles["game-over"]]: !!winnerSignal.value,
+          [styles["game-over"]]: !!gameOver,
         })}
       >
-        {board.map((row, idx) => {
-          return (
-            <Row key={idx} idx={idx} row={row} handleClick={handleClick} />
-          );
+        {Array.from({ length: 3 }).map((_, idx) => {
+          return <Row key={idx} row={idx} />;
         })}
       </div>
     </>

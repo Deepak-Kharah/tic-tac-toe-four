@@ -1,8 +1,8 @@
-export interface Cell {
+export type Cell = {
   value: "X" | "O" | null;
   willDisappear: boolean;
   winningCell: boolean;
-}
+};
 
 export type Board = [
   [Cell, Cell, Cell],

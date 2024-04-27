@@ -3,7 +3,7 @@ import TicTacToe from "./components/TicTacToe";
 
 function Game() {
   return (
-    <main className="w-100vw h-[100vh] flex justify-center items-center">
+    <main className="w-100vw h-[100vh] flex flex-col justify-center items-center">
       <TicTacToe />
     </main>
   );

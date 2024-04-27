@@ -1,26 +1,15 @@
-import { Cell } from "../interface/ticTacToe.type";
 import { SingleCell } from "./Cell";
 
 export interface RowProps {
-  idx: number;
-  row: [Cell, Cell, Cell];
-  handleClick: (row: number, col: number) => void;
+  row: number;
 }
 
 export function Row(props: RowProps) {
-  const { idx, row } = props;
+  const { row } = props;
   return (
     <div className="flex gap-2">
-      {row.map((cell, index) => {
-        return (
-          <SingleCell
-            key={index}
-            cell={cell}
-            row={idx}
-            col={index}
-            handleClick={props.handleClick}
-          />
-        );
+      {Array.from({ length: 3 }).map((_, col) => {
+        return <SingleCell key={col} row={row} col={col} />;
       })}
     </div>
   );

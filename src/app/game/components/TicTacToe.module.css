@@ -16,6 +16,12 @@
   inherits: false;
 }
 
+@property --element-shadow {
+  syntax: "<color>";
+  initial-value: rgba(0, 0, 0, 0);
+  inherits: false;
+}
+
 .cell:hover:enabled {
   --lighter-color: #1d4067;
   --darker-color: #08101c;
@@ -79,23 +85,23 @@
 }
 
 .circle {
-  --element-color: white;
+  --element-color: #94a3b8;
   width: 42px;
   height: 42px;
   border: 4px solid var(--element-color);
   border-radius: 50%;
-  transition: --element-color 0.5s;
+  transition: --element-color 0.5s, --element-shadow 0.5s;
 }
 
 .cross:before,
 .cross:after {
-  --element-color: white;
+  --element-color: #94a3b8;
   position: absolute;
   content: " ";
   height: 42px;
   width: 4px;
   background-color: var(--element-color);
-  transition: --element-color 0.5s;
+  transition: --element-color 0.5s, --element-shadow 0.5s;
 }
 .cross:before {
   transform: rotate(45deg);
@@ -126,4 +132,13 @@
 .cell.winning-cell.filled-cell .cross:after,
 .cell.winning-cell.filled-cell .circle {
   --element-color: #0c714e;
+}
+
+.active .cross:after,
+.active .cross:before,
+.active .circle {
+  --element-shadow: #fff;
+  box-shadow: 0 0 10px 1px var(--element-shadow),
+    inset 0 0 10px 1px var(--element-shadow);
+  --element-color: #ffffff;
 }

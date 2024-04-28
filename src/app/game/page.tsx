@@ -1,10 +1,9 @@
-import React from "react";
+"use client";
 import TicTacToe from "./components/TicTacToe";
-import { motion } from "framer-motion";
 
 function Game() {
   return (
-    <main className="flex-1">
+    <main className="flex-1" vaul-drawer-wrapper="">
       <TicTacToe />
     </main>
   );

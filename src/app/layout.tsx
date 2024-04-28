@@ -10,6 +10,113 @@ export const metadata: Metadata = {
   title: "Tic Tac Toe Four",
   description:
     "A twist on the classic Tic Tac Toe game. A game that never draws. Play now!",
+  applicationName: "Tic Tac Toe Four",
+  openGraph: {
+    type: "website",
+    url: "https://tic-tac-toe-four-four.vercel.app",
+    siteName: "Tic Tac Toe Four",
+    title: "Tic Tac Toe Four",
+    images: [
+      {
+        url: "https://tic-tac-toe-four-four.vercel.app/images/og-image.png",
+        alt: "Tic Tac Toe Four",
+      },
+    ],
+    description:
+      "A twist on the classic Tic Tac Toe game. A game that never draws.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tic Tac Toe Four",
+    description:
+      "A twist on the classic Tic Tac Toe game. A game that never draws.",
+    creator: "@deepak_kharah",
+    images: [
+      "https://js-design-pattern-visualized.vercel.app/images/og-image.png",
+    ],
+  },
+  verification: {
+    google: "RYFPGjrvpRLoYr1N9GC-k31biGi8xMt-Sas_uWwTWDs",
+  },
+  authors: [
+    {
+      name: "Deepak Kharah",
+      url: "https://github.com/Deepak-Kharah",
+    },
+  ],
+  icons: {
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" },
+      {
+        rel: "mask-icon",
+        url: "images/safari-pinned-tab.svg",
+        color: "#0f162a",
+      },
+    ],
+    apple: "/images/apple-touch-icon.png",
+    icon: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/images/favicon-dark-16x16.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "/images/favicon-light-16x16.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/images/favicon-dark-32x32.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "/images/favicon-light-32x32.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        sizes: "16x16",
+        url: "/images/favicon-dark.svg",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        sizes: "16x16",
+        url: "/images/favicon-light.svg",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        sizes: "32x32",
+        url: "/images/favicon-dark.svg",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        sizes: "32x32",
+        url: "/images/favicon-light.svg",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
+  other: {
+    "msapplication-TileColor": "#0f162a",
+    "msapplication-TileImage": "/images/mstile-144x144.png",
+  },
 };
 
 export default function RootLayout({

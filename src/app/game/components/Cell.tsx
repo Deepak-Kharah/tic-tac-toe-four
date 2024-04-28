@@ -17,6 +17,12 @@ interface CellProps {
 let history: { x: number; y: number }[] = [];
 let disappearing: { x: number; y: number } | null = null;
 
+export function resetGameComponents() {
+  history = [];
+  disappearing = null;
+  winnerSignal.value = null;
+}
+
 function handleClick(row: number, col: number) {
   if (board.value[row][col].value) {
     return;

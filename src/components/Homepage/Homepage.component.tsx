@@ -7,7 +7,6 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { annotate, annotationGroup } from "rough-notation";
 import { RoughAnnotationConfig } from "rough-notation/lib/model";
-import style from "./Homepage.module.css";
 
 const satisfy = Satisfy({ subsets: ["latin"], weight: ["400"] });
 

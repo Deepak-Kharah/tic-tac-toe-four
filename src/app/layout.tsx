@@ -1,8 +1,9 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
+import classNames from "classnames";
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
-import "./globals.css";
 import Link from "next/link";
-import classNames from "classnames";
+import "./globals.css";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -13,12 +14,12 @@ export const metadata: Metadata = {
   applicationName: "Tic Tac Toe Four",
   openGraph: {
     type: "website",
-    url: "https://tic-tac-toe-four-four.vercel.app",
+    url: "https://ttt-four.vercel.app",
     siteName: "Tic Tac Toe Four",
     title: "Tic Tac Toe Four",
     images: [
       {
-        url: "https://tic-tac-toe-four-four.vercel.app/images/og-image.png",
+        url: "https://ttt-four.vercel.app/images/og-image.png",
         alt: "Tic Tac Toe Four",
       },
     ],
@@ -167,6 +168,7 @@ export default function RootLayout({
           ></canvas>
         </div>
       </body>
+      <GoogleAnalytics gaId="G-TSDM0Y9EXZ" />
     </html>
   );
 }

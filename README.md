@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tic tac toe four
 
-## Getting Started
+This is a strategic twist on the classic tic-tac-toe game. It starts off familiar, but after four moves, the game dynamic shifts. Each player can only have at most four pieces on the board. On the fourth move of each player, if the player placed and did not win, the last piece placed by the player will be tactically removed from the board, adding a new level of strategy to the game.
 
-First, run the development server:
+With this new version, the game never ends in a draw. It's a thrilling battle, always concluding in a win or a loss, adding an extra layer of excitement to each move and keeping you on the edge of your seat.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> "As for the inspiration, one day, I was scrolling through the Instagram reels, and I saw a video of a person playing this version of tic-tac-toe. It was an excellent idea, and I was immediately drawn to it. I decided to bring it to life by creating a web version. I hope you enjoy playing it as much as I enjoyed making it.
+> "
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## The thoughts behind the game
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The goal is to create a fun and challenging game that is easy to understand and play.
+- The game should be aesthetically pleasing.
+- It should be easy to play on a mobile device.
+- It should contain animations and other micro-interactions to make the game more engaging. (I've used framer, rough-notation, and confetti for this purpose)
+- The UI must be clean and purposeful.
+- Remember the 404 page.
+- The game should have to be keyboard accessible.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Tech stack
 
-## Learn More
+It's a simple game that uses Next.js and Tailwind CSS. The game logic is written in TypeScript. It is hosted on Vercel.
 
-To learn more about Next.js, take a look at the following resources:
+# Future plans
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The game is not heavily optimized for performance. I plan to optimize it for better performance, add a feature to play with a friend online and add a feature to play with a bot. Finally, improve the confetti animation.

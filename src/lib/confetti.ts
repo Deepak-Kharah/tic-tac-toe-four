@@ -4,7 +4,6 @@ export function launchFirework() {
   const duration = 15 * 100,
     animationEnd = Date.now() + duration,
     defaults: ConfettiOptions = {
-      gravity: 10,
       startVelocity: 20,
       spread: 360,
       ticks: 60,

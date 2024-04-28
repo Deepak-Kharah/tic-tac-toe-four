@@ -1,9 +1,10 @@
 import React from "react";
 import TicTacToe from "./components/TicTacToe";
+import { motion } from "framer-motion";
 
 function Game() {
   return (
-    <main className="w-100vw h-[100vh] flex flex-col justify-center items-center gap-5">
+    <main className="flex-1">
       <TicTacToe />
     </main>
   );

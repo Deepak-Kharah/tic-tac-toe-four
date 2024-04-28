@@ -4,7 +4,7 @@ import Homepage from "../components/Homepage/Homepage.component";
 
 export default function Home() {
   return (
-    <main className="w-100vw h-[100vh] flex justify-center items-center">
+    <main className="flex justify-center items-center flex-1">
       <Homepage />
     </main>
   );

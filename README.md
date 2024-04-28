@@ -1,4 +1,4 @@
-# Tic tac toe four
+# [Tic tac toe four](https://ttt-four.vercel.app/)
 
 This is a strategic twist on the classic tic-tac-toe game. It starts off familiar, but after four moves, the game dynamic shifts. Each player can only have at most four pieces on the board. On the fourth move of each player, if the player placed and did not win, the last piece placed by the player will be tactically removed from the board, adding a new level of strategy to the game.
 

@@ -127,9 +127,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={classNames(raleway.className, "min-h-[100vh] flex flex-col")}
-      >
+      <body className={classNames(raleway.className, "flex flex-col")}>
         <nav className="font-extralight text-slate-400 py-4 px-3 bg-gradient-to-b from-slate-900/40 to-transparent">
           <ul className="flex gap-5 mx-auto justify-center">
             <li>
@@ -141,15 +139,25 @@ export default function RootLayout({
         </nav>
         {children}
         <footer className="font-extralight text-sm text-slate-400 py-4 px-3 text-center bg-gradient-to-t from-slate-900/40 to-transparent">
-          Build by{" "}
+          Built by{" "}
           <a
-            className="transition-all hover:text-white"
+            className="font-semibold text-slate-400/70 transition-all hover:text-white"
             href="https://github.com/Deepak-Kharah"
             target="_blank"
             rel="noopener noreferrer"
           >
             Deepak Kharah
           </a>
+          . And it&apos;s{" "}
+          <a
+            className="font-semibold text-slate-400/70 transition-all hover:text-white"
+            href="https://github.com/Deepak-Kharah/tic-tac-toe-four"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            open source
+          </a>
+          .{" "}
         </footer>
         <div id="confetti">
           <canvas

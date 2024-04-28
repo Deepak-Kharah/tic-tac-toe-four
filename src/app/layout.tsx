@@ -43,6 +43,22 @@ export default function RootLayout({
             Deepak Kharah
           </a>
         </footer>
+        <div id="confetti">
+          <canvas
+            data-generated="true"
+            style={{
+              width: "100% !important",
+              height: "100% !important",
+              position: "fixed",
+              top: "0px !important",
+              left: "0px !important",
+              pointerEvents: "none",
+            }}
+            aria-hidden="true"
+            width="100vw"
+            height="100vh"
+          ></canvas>
+        </div>
       </body>
     </html>
   );

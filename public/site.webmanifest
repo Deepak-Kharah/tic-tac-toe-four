@@ -1,6 +1,9 @@
 {
   "name": "Tic Tac Toe Four",
   "short_name": "Tic Tac Toe Four",
+  "description": "A twist on the classic Tic Tac Toe game. A game that never draws.",
+  "orientation": "portrait",
+  "id": "ttt-four",
   "screenshots": [
     {
       "src": "/images/gameplay-640x320.webp",

@@ -1,6 +1,21 @@
 {
   "name": "Tic Tac Toe Four",
   "short_name": "Tic Tac Toe Four",
+  "screenshots": [
+    {
+      "src": "/images/gameplay-640x320.webp",
+      "sizes": "640x320",
+      "type": "image/webp",
+      "label": "Gameplay",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/images/gameplay-320x640.webp",
+      "sizes": "320x640",
+      "type": "image/webp",
+      "label": "Gameplay"
+    }
+  ],
   "icons": [
     {
       "src": "/images/android-chrome-192x192.png",

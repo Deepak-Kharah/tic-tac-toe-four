@@ -6,6 +6,7 @@ export const SITE_METADATA = {
   description:
     "A twist on the classic Tic Tac Toe game. A game that never draws. Play now!",
   applicationName: "Tic Tac Toe Four",
+  manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
     url: "https://ttt-four.vercel.app",

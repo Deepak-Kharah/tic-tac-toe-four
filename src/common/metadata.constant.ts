@@ -9,12 +9,12 @@ export const SITE_METADATA = {
   manifest: "/site.webmanifest",
   openGraph: {
     type: "website",
-    url: "https://ttt-four.vercel.app",
+    url: "https://tic-tac-toe-four.deepakkharah.com",
     siteName: "Tic Tac Toe Four",
     title: "Tic Tac Toe Four - A twist on the classic Tic Tac Toe game",
     images: [
       {
-        url: "https://ttt-four.vercel.app/images/og-image.png",
+        url: "https://tic-tac-toe-four.deepakkharah.com/images/og-image.png",
         alt: "Tic Tac Toe Four",
       },
     ],
@@ -27,9 +27,7 @@ export const SITE_METADATA = {
     description:
       "A twist on the classic Tic Tac Toe game. A game that never draws.",
     creator: "@deepak_kharah",
-    images: [
-      "https://js-design-pattern-visualized.vercel.app/images/og-image.png",
-    ],
+    images: ["https://tic-tac-toe-four.deepakkharah.com/images/og-image.png"],
   },
   verification: {
     google: "RYFPGjrvpRLoYr1N9GC-k31biGi8xMt-Sas_uWwTWDs",

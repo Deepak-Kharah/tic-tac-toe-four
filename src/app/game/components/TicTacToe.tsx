@@ -6,8 +6,7 @@ import classNames from "classnames";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useState } from "react";
 import { didWin } from "../gameLogic";
-import { board, getDefaultBoard, isXTurn as isXTurnSignal } from "../signal";
-import { resetGameComponents } from "./Cell";
+import { board, isXTurn as isXTurnSignal, resetGame as resetGameSignals } from "../signal";
 import NewGameDialog from "./NewGameDialog";
 import { Circle, Cross } from "./Pieces";
 import { Row } from "./Row";
@@ -21,7 +20,6 @@ const gameAnimationVariants: Variants = {
 
 function TicTacToe() {
   const [gameOver, setGameOver] = useState(false);
-  const [isXTurn, setIsXTurn] = useState(true);
 
   effect(() => {
     const winner = didWin(board.value);
@@ -30,14 +28,12 @@ function TicTacToe() {
         setGameOver(true);
         launchFirework();
       }
-    } else if (isXTurn !== isXTurnSignal.value) setIsXTurn(isXTurnSignal.value);
+    }
   });
 
   function resetGame() {
     setGameOver(false);
-    board.value = getDefaultBoard();
-    isXTurnSignal.value = true;
-    resetGameComponents();
+    resetGameSignals();
   }
 
   return (
@@ -55,8 +51,9 @@ function TicTacToe() {
           className="flex gap-2 items-center"
         >
           <div
+            data-testid="active-player-x"
             className={classNames("size-20 flex items-center justify-center", {
-              [styles.active]: isXTurn,
+              [styles.active]: isXTurnSignal.value,
             })}
           >
             <Cross />
@@ -65,8 +62,9 @@ function TicTacToe() {
             --
           </div>
           <div
+            data-testid="active-player-o"
             className={classNames("size-20 flex items-center justify-center", {
-              [styles.active]: !isXTurn,
+              [styles.active]: !isXTurnSignal.value,
             })}
           >
             <Circle />

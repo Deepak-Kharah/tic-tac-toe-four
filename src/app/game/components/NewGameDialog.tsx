@@ -61,13 +61,14 @@ export function NewGameDialog(props: NewGameDialogProps) {
     return (
       <Dialog open={open} onOpenChange={handleOpen}>
         <DialogTrigger
+          data-testid="new-game-btn"
           className={classNames(
             "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80"
           )}
         >
           {triggerText}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent data-testid="new-game-dialog" className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
@@ -77,6 +78,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
               Cancel
             </DialogClose>
             <DialogClose
+              data-testid="new-game-btn-confirm"
               onClick={onClick}
               className="px-4 py-2 text-sm font-light rounded-lg bg-blue-900/70 text-slate-300 shadow-lg hover:bg-blue-900 transition-all"
             >
@@ -92,6 +94,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
     <Drawer open={open} onOpenChange={handleOpen}>
       <DrawerTrigger asChild>
         <DrawerTrigger
+          data-testid="new-game-btn"
           className={classNames(
             "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80"
           )}
@@ -99,7 +102,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
           {triggerText}
         </DrawerTrigger>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent data-testid="new-game-dialog">
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
@@ -109,6 +112,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
             Cancel
           </DrawerClose>
           <DrawerClose
+            data-testid="new-game-btn-confirm"
             onClick={onClick}
             className="px-4 py-2 text-sm font-light rounded-lg bg-blue-900/70 text-slate-300 shadow-lg hover:bg-blue-900 transition-all"
           >

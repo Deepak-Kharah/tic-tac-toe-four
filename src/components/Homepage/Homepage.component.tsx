@@ -111,6 +111,7 @@ function Homepage() {
           }}
         >
           <Link
+            data-testid="play-game-link"
             className={classNames(
               // "rounded-xl text-sm px-8 py-3 shadow-lg border border-stone-800",
               // style.button

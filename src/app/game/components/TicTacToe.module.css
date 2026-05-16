@@ -36,10 +36,14 @@
     var(--lighter-color),
     var(--darker-color)
   );
-  box-shadow: 0 0 0 0 transparent,
+  box-shadow:
+    0 0 0 0 transparent,
     inset -0.5px -0.25px 1px 0.5px hsl(225.09deg 100% 68.95% / 12%),
     inset 1px 1px 0 0 hsl(215.18deg 4.44% 47.8% / 11%);
-  transition: all 0.5s, --lighter-color 0.5s, --darker-color 0.5s;
+  transition:
+    all 0.5s,
+    --lighter-color 0.5s,
+    --darker-color 0.5s;
 }
 
 .cell.filled-cell {
@@ -90,7 +94,9 @@
   height: 42px;
   border: 4px solid var(--element-color);
   border-radius: 50%;
-  transition: --element-color 0.5s, --element-shadow 0.5s;
+  transition:
+    --element-color 0.5s,
+    --element-shadow 0.5s;
 }
 
 .cross:before,
@@ -101,7 +107,9 @@
   height: 42px;
   width: 4px;
   background-color: var(--element-color);
-  transition: --element-color 0.5s, --element-shadow 0.5s;
+  transition:
+    --element-color 0.5s,
+    --element-shadow 0.5s;
 }
 .cross:before {
   transform: rotate(45deg);
@@ -138,7 +146,8 @@
 .active .cross:before,
 .active .circle {
   --element-shadow: #fff;
-  box-shadow: 0 0 10px 1px var(--element-shadow),
+  box-shadow:
+    0 0 10px 1px var(--element-shadow),
     inset 0 0 10px 1px var(--element-shadow);
   --element-color: #ffffff;
 }

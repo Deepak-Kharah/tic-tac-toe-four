@@ -5,7 +5,7 @@ import classNames from "classnames";
 import isEqual from "lodash.isequal";
 import { useState } from "react";
 import { didWin } from "../gameLogic";
-import { board, isXTurn, winnerSignal } from "../signal";
+import { board, isXTurn, winnerSignal, history, disappearing } from "../signal";
 import { Circle, Cross } from "./Pieces";
 import styles from "./TicTacToe.module.css";
 
@@ -14,22 +14,13 @@ interface CellProps {
   col: number;
 }
 
-let history: { x: number; y: number }[] = [];
-let disappearing: { x: number; y: number } | null = null;
-
-export function resetGameComponents() {
-  history = [];
-  disappearing = null;
-  winnerSignal.value = null;
-}
-
 function handleClick(row: number, col: number) {
   if (board.value[row][col].value) {
     return;
   }
 
   const newBoard = structuredClone(board.value);
-  const newHistory = structuredClone(history);
+  const newHistory = structuredClone(history.value);
 
   // set new cells
   newBoard[row][col].value = isXTurn.value ? "X" : "O";
@@ -44,8 +35,8 @@ function handleClick(row: number, col: number) {
     });
   } else {
     // reset last cell
-    if (disappearing) {
-      const { x, y } = disappearing;
+    if (disappearing.value) {
+      const { x, y } = disappearing.value;
       newBoard[x][y].value = null;
       newBoard[x][y].willDisappear = false;
     }
@@ -54,13 +45,13 @@ function handleClick(row: number, col: number) {
     if (newHistory.length === 6) {
       const { x, y } = newHistory[0];
       newBoard[x][y].willDisappear = true;
-      disappearing = { x, y };
+      disappearing.value = { x, y };
       newHistory.shift();
     }
   }
 
   board.value = newBoard;
-  history = newHistory;
+  history.value = newHistory;
   isXTurn.value = !isXTurn.value;
 }
 
@@ -77,6 +68,10 @@ export function SingleCell(props: CellProps) {
 
   return (
     <button
+      data-testid={`cell-${row}-${col}`}
+      data-disappearing={cell.willDisappear || undefined}
+      data-winning={cell.winningCell || undefined}
+      data-value={cell.value || ""}
       className={classNames(
         styles.cell,
         "gap-3 size-20 transition flex items-center justify-center",
@@ -84,7 +79,7 @@ export function SingleCell(props: CellProps) {
         { [styles["filled-cell"]]: !!cell.value },
         {
           [styles["will-disappear-cell"]]: cell.willDisappear,
-        }
+        },
       )}
       disabled={!!cell.value || !!winnerSignal.value}
       onClick={() => handleClick(props.row, props.col)}

@@ -7,5 +7,5 @@ export type Cell = {
 export type Board = [
   [Cell, Cell, Cell],
   [Cell, Cell, Cell],
-  [Cell, Cell, Cell]
+  [Cell, Cell, Cell],
 ];

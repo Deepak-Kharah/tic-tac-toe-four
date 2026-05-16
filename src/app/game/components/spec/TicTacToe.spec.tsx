@@ -59,12 +59,11 @@ describe("TicTacToe Integration Tests", () => {
   it("should render player indicators", () => {
     render(<TicTacToe />);
 
-    // Look for X and O pieces in the player area (not necessarily in cells)
-    const crosses = document.querySelectorAll('[class*="cross"]');
-    const circles = document.querySelectorAll('[class*="circle"]');
+    const playerX = screen.getByTestId("active-player-x");
+    const playerO = screen.getByTestId("active-player-o");
 
-    expect(crosses.length).toBeGreaterThan(0);
-    expect(circles.length).toBeGreaterThan(0);
+    expect(playerX).toBeDefined();
+    expect(playerO).toBeDefined();
   });
 
   it("should handle component lifecycle", () => {

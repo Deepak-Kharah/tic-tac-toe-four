@@ -63,12 +63,15 @@ export function NewGameDialog(props: NewGameDialogProps) {
         <DialogTrigger
           data-testid="new-game-btn"
           className={classNames(
-            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80"
+            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80",
           )}
         >
           {triggerText}
         </DialogTrigger>
-        <DialogContent data-testid="new-game-dialog" className="sm:max-w-[425px]">
+        <DialogContent
+          data-testid="new-game-dialog"
+          className="sm:max-w-[425px]"
+        >
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
@@ -96,7 +99,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
         <DrawerTrigger
           data-testid="new-game-btn"
           className={classNames(
-            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80"
+            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80",
           )}
         >
           {triggerText}

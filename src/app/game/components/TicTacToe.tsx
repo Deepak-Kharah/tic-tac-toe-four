@@ -6,7 +6,11 @@ import classNames from "classnames";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useState } from "react";
 import { didWin } from "../gameLogic";
-import { board, isXTurn as isXTurnSignal, resetGame as resetGameSignals } from "../signal";
+import {
+  board,
+  isXTurn as isXTurnSignal,
+  resetGame as resetGameSignals,
+} from "../signal";
 import NewGameDialog from "./NewGameDialog";
 import { Circle, Cross } from "./Pieces";
 import { Row } from "./Row";
@@ -84,7 +88,7 @@ function TicTacToe() {
           {!!gameOver ? (
             <button
               className={classNames(
-                "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg"
+                "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg",
               )}
               onClick={resetGame}
             >

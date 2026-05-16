@@ -79,7 +79,7 @@ export function SingleCell(props: CellProps) {
         { [styles["filled-cell"]]: !!cell.value },
         {
           [styles["will-disappear-cell"]]: cell.willDisappear,
-        }
+        },
       )}
       disabled={!!cell.value || !!winnerSignal.value}
       onClick={() => handleClick(props.row, props.col)}

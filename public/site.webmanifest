@@ -16,7 +16,8 @@
       "src": "/images/gameplay-320x640.webp",
       "sizes": "320x640",
       "type": "image/webp",
-      "label": "Gameplay"
+      "label": "Gameplay",
+      "form_factor": "narrow"
     }
   ],
   "icons": [
@@ -45,5 +46,6 @@
   "theme_color": "#0f162a",
   "background_color": "#0f162a",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone"
 }

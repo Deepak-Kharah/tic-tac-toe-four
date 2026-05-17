@@ -43,7 +43,7 @@ export const SITE_METADATA = {
       { rel: "manifest", url: "/site.webmanifest" },
       {
         rel: "mask-icon",
-        url: "images/safari-pinned-tab.svg",
+        url: "/images/safari-pinned-tab.svg",
         color: "#0f162a",
       },
     ],
@@ -111,7 +111,7 @@ export const SITE_METADATA = {
     "msapplication-TileColor": "#0f162a",
     "msapplication-TileImage": "/images/mstile-144x144.png",
   },
-} as const satisfies Metadata;
+} satisfies Metadata;
 
 export const WEBSITE_JSON_LD = {
   "@context": "https://schema.org",

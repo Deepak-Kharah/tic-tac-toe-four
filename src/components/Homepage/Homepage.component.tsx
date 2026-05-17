@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { annotate, annotationGroup } from "rough-notation";
 import { RoughAnnotationConfig } from "rough-notation/lib/model";
+import { InstallPrompt } from "@/install-prompt/components/InstallPrompt";
 
 const satisfy = Satisfy({ subsets: ["latin"], weight: ["400"] });
 
@@ -123,6 +124,7 @@ function Homepage() {
           </Link>
         </motion.div>
       </section>
+      <InstallPrompt context={{ page: "homepage" }} />
     </div>
   );
 }

@@ -8,11 +8,22 @@ export function useMediaQuery(query: string) {
       setValue(event.matches);
     }
 
-    const result = matchMedia(query);
-    result.addEventListener("change", onChange);
-    setValue(result.matches);
+    // Handle test environment where matchMedia might not be available
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return;
+    }
 
-    return () => result.removeEventListener("change", onChange);
+    const result = matchMedia(query);
+    if (result && typeof result.addEventListener === "function") {
+      result.addEventListener("change", onChange);
+      setValue(result.matches);
+
+      return () => {
+        if (typeof result.removeEventListener === "function") {
+          result.removeEventListener("change", onChange);
+        }
+      };
+    }
   }, [query]);
 
   return value;

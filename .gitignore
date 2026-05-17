@@ -147,6 +147,10 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,nextjs,macos,windows,linux
 
+# PWA generated files (next-pwa)
+public/sw.js
+public/workbox-*.js
+
 # testing
 /coverage
 /test-results/

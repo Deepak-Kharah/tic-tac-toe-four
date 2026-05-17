@@ -17,9 +17,61 @@ With this new version, the game never ends in a draw. It's a thrilling battle, a
 - Remember the 404 page.
 - The game should have to be keyboard accessible.
 
+# Installation & Offline Play
+
+This game works as a **Progressive Web App (PWA)**, meaning you can:
+
+- **Install it** on your device like a native app
+- **Play offline** after your first visit
+- Get **fast loading** from cached assets
+
+## How to Install
+
+### On Desktop (Chrome, Edge, Safari)
+
+1. Visit the game in your browser
+2. Look for the "Install" button in the address bar or browser menu
+3. Click "Install" when prompted
+4. The app will be added to your desktop/app launcher
+
+### On Mobile
+
+- **Android (Chrome):** Tap the "Add to Home Screen" notification or use the browser menu
+- **iOS (Safari):** Tap Share → "Add to Home Screen"
+
+The install prompt will also appear automatically on supported browsers when you visit the homepage.
+
+## Offline Testing
+
+To verify offline functionality:
+
+1. **Build and run production version:**
+
+   ```bash
+   npm run build && npm run start
+   ```
+
+2. **Test installation:**
+   - Visit `http://localhost:2567`
+   - Install the app using your browser's install feature
+   - Confirm app appears in your device's app launcher
+
+3. **Test offline play:**
+   - Open DevTools → Network tab → Enable "Offline"
+   - Reload the app - it should still work
+   - Navigate to `/game` and play a full game
+   - All functionality should work without network
+
+4. **Check PWA features:**
+   - DevTools → Application → Manifest (no errors)
+   - DevTools → Application → Service Workers (`sw.js` should be active)
+   - Run Lighthouse PWA audit for full validation
+
+**Note:** PWA features are disabled in development mode. Always test with production builds.
+
 # Tech stack
 
-It's a simple game that uses Next.js and Tailwind CSS. The game logic is written in TypeScript. It is hosted on Vercel.
+It's a Progressive Web App built with Next.js and Tailwind CSS. The game logic is written in TypeScript and uses Preact Signals for state management. The PWA functionality is powered by `next-pwa` with Workbox. It is hosted on Vercel.
 
 # Future plans
 

@@ -43,7 +43,7 @@ export const SITE_METADATA = {
       { rel: "manifest", url: "/site.webmanifest" },
       {
         rel: "mask-icon",
-        url: "images/safari-pinned-tab.svg",
+        url: "/images/safari-pinned-tab.svg",
         color: "#0f162a",
       },
     ],

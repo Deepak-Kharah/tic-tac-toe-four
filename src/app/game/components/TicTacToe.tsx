@@ -11,6 +11,7 @@ import {
   isXTurn as isXTurnSignal,
   resetGame as resetGameSignals,
 } from "../signal";
+import { markFirstGameCompleted } from "@/install-prompt/utils";
 import NewGameDialog from "./NewGameDialog";
 import { Circle, Cross } from "./Pieces";
 import { Row } from "./Row";
@@ -31,6 +32,8 @@ function TicTacToe() {
       if (winner && !gameOver) {
         setGameOver(true);
         launchFirework();
+        // Mark first game completion for install prompt timing
+        markFirstGameCompleted();
       }
     }
   });

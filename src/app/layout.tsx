@@ -53,22 +53,7 @@ export default function RootLayout({
           </a>
           .{" "}
         </footer>
-        <div id="confetti">
-          <canvas
-            data-generated="true"
-            style={{
-              width: "100% !important",
-              height: "100% !important",
-              position: "fixed",
-              top: "0px !important",
-              left: "0px !important",
-              pointerEvents: "none",
-            }}
-            aria-hidden="true"
-            width="100vw"
-            height="100vh"
-          ></canvas>
-        </div>
+        <div id="confetti"></div>
       </body>
       {process.env.NODE_ENV === "production" && (
         <GoogleAnalytics gaId="G-TSDM0Y9EXZ" />

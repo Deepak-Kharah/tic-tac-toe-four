@@ -111,7 +111,7 @@ export const SITE_METADATA = {
     "msapplication-TileColor": "#0f162a",
     "msapplication-TileImage": "/images/mstile-144x144.png",
   },
-} as const satisfies Metadata;
+} satisfies Metadata;
 
 export const WEBSITE_JSON_LD = {
   "@context": "https://schema.org",

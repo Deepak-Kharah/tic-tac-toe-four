@@ -14,6 +14,7 @@ export interface InstallPromptState {
   isAndroid: boolean;
   isDismissed: boolean;
   installPromptEvent: BeforeInstallPromptEvent | null;
+  capabilities: InstallCapabilities;
 }
 
 export interface InstallPromptTiming {

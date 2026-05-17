@@ -1,15 +1,16 @@
 "use client";
 
-import { launchFirework } from "@/lib/confetti";
+import { launchFirework, resetConfetti } from "@/lib/confetti";
 import { effect } from "@preact/signals";
 import classNames from "classnames";
 import { AnimatePresence, Variants, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { didWin } from "../gameLogic";
 import {
   board,
   isXTurn as isXTurnSignal,
   resetGame as resetGameSignals,
+  winnerSignal,
 } from "../signal";
 import { markFirstGameCompleted } from "@/install-prompt/utils";
 import NewGameDialog from "./NewGameDialog";
@@ -25,21 +26,31 @@ const gameAnimationVariants: Variants = {
 
 function TicTacToe() {
   const [gameOver, setGameOver] = useState(false);
+  const hasCelebratedRef = useRef(false);
 
-  effect(() => {
-    const winner = didWin(board.value);
-    if (winner) {
-      if (winner && !gameOver) {
+  // React to winnerSignal changes - this fires exactly when a win is committed
+  useEffect(() => {
+    const dispose = effect(() => {
+      const winner = winnerSignal.value;
+      if (winner && !hasCelebratedRef.current) {
+        // Set ref first to prevent re-entry
+        hasCelebratedRef.current = true;
         setGameOver(true);
-        launchFirework();
+
+        // Launch confetti asynchronously
+        launchFirework().catch(console.error);
         // Mark first game completion for install prompt timing
         markFirstGameCompleted();
       }
-    }
-  });
+    });
+
+    return dispose; // Cleanup effect on unmount
+  }, []);
 
   function resetGame() {
     setGameOver(false);
+    hasCelebratedRef.current = false; // Reset celebration flag for next game
+    resetConfetti(); // Ensure confetti module is reset
     resetGameSignals();
   }
 

@@ -17,6 +17,14 @@ const TIMING_CONSTANTS = {
   REPROMPT_INTERVAL: 7 * 24 * 60 * 60 * 1000, // 1 week
 } as const;
 
+// Default capabilities for SSR and initial state
+export const DEFAULT_INSTALL_CAPABILITIES: InstallCapabilities = {
+  canInstall: false,
+  installMethod: "none",
+  deviceType: "desktop",
+  browserSupport: false,
+};
+
 // Device and browser detection
 export function detectDevice(): {
   isIOS: boolean;
@@ -39,12 +47,7 @@ export function detectDevice(): {
 
 export function getInstallCapabilities(): InstallCapabilities {
   if (typeof window === "undefined") {
-    return {
-      canInstall: false,
-      installMethod: "none",
-      deviceType: "desktop",
-      browserSupport: false,
-    };
+    return DEFAULT_INSTALL_CAPABILITIES;
   }
 
   const { isIOS, isAndroid, isStandalone } = detectDevice();

@@ -15,6 +15,7 @@ import {
   triggerInstall,
   incrementVisitCount,
   addEngagementTime,
+  DEFAULT_INSTALL_CAPABILITIES,
 } from "./utils";
 
 export function useInstallPrompt(context: InstallPromptContext) {
@@ -25,6 +26,7 @@ export function useInstallPrompt(context: InstallPromptContext) {
     isAndroid: false,
     isDismissed: false,
     installPromptEvent: null,
+    capabilities: DEFAULT_INSTALL_CAPABILITIES,
   });
 
   const [isInstalling, setIsInstalling] = useState(false);
@@ -41,6 +43,7 @@ export function useInstallPrompt(context: InstallPromptContext) {
       isAndroid,
       isStandalone,
       isDismissed: !capabilities.canInstall,
+      capabilities,
     }));
 
     // Track visit on homepage
@@ -157,16 +160,14 @@ export function useInstallPrompt(context: InstallPromptContext) {
     setState((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
-  const capabilities = getInstallCapabilities();
-
   return {
     // State
     isVisible: state.isVisible && !state.isStandalone,
     isStandalone: state.isStandalone,
     isIOS: state.isIOS,
     isAndroid: state.isAndroid,
-    canInstall: capabilities.canInstall && !state.isStandalone,
-    installMethod: capabilities.installMethod,
+    canInstall: state.capabilities.canInstall && !state.isStandalone,
+    installMethod: state.capabilities.installMethod,
     isInstalling,
 
     // Actions
@@ -183,7 +184,9 @@ export function useInstallPrompt(context: InstallPromptContext) {
 // Lightweight hook for components that just need install capabilities
 export function useInstallCapabilities() {
   const [isStandalone, setIsStandalone] = useState(false);
-  const [capabilities, setCapabilities] = useState(getInstallCapabilities());
+  const [capabilities, setCapabilities] = useState(
+    DEFAULT_INSTALL_CAPABILITIES,
+  );
 
   useEffect(() => {
     const { isStandalone: standalone } = detectDevice();

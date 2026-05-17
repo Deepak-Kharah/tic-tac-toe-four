@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
 // Mock matchMedia for tests
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(global, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -30,6 +30,7 @@ vi.mock("framer-motion", () => ({
 // Mock confetti function
 vi.mock("@/lib/confetti", () => ({
   launchFirework: vi.fn(),
+  resetConfetti: vi.fn(),
 }));
 
 // Mock Next.js Link component

@@ -1,9 +1,9 @@
+import { launchFirework, resetConfetti } from "@/lib/confetti";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { board, isXTurn, resetGame, winnerSignal } from "../../signal";
 import TicTacToe from "../TicTacToe";
-import { launchFirework, resetConfetti } from "@/lib/confetti";
 
 // Mock the confetti module - extending global mock for additional control
 vi.mocked(launchFirework).mockResolvedValue(undefined);

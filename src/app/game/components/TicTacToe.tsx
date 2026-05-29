@@ -2,12 +2,10 @@
 
 import { launchFirework, resetConfetti } from "@/lib/confetti";
 import { effect } from "@preact/signals";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import { didWin } from "../gameLogic";
 import {
-  board,
   isXTurn as isXTurnSignal,
   resetGame as resetGameSignals,
   winnerSignal,
@@ -28,29 +26,23 @@ function TicTacToe() {
   const [gameOver, setGameOver] = useState(false);
   const hasCelebratedRef = useRef(false);
 
-  // React to winnerSignal changes - this fires exactly when a win is committed
   useEffect(() => {
-    const dispose = effect(() => {
+    return effect(() => {
       const winner = winnerSignal.value;
       if (winner && !hasCelebratedRef.current) {
-        // Set ref first to prevent re-entry
+        // Set ref before any awaits so a second signal tick can't re-enter.
         hasCelebratedRef.current = true;
         setGameOver(true);
-
-        // Launch confetti asynchronously
         launchFirework().catch(console.error);
-        // Mark first game completion for install prompt timing
         markFirstGameCompleted();
       }
     });
-
-    return dispose; // Cleanup effect on unmount
   }, []);
 
   function resetGame() {
     setGameOver(false);
-    hasCelebratedRef.current = false; // Reset celebration flag for next game
-    resetConfetti(); // Ensure confetti module is reset
+    hasCelebratedRef.current = false;
+    resetConfetti();
     resetGameSignals();
   }
 
@@ -70,7 +62,7 @@ function TicTacToe() {
         >
           <div
             data-testid="active-player-x"
-            className={classNames("size-20 flex items-center justify-center", {
+            className={cn("size-20 flex items-center justify-center", {
               [styles.active]: isXTurnSignal.value,
             })}
           >
@@ -81,7 +73,7 @@ function TicTacToe() {
           </div>
           <div
             data-testid="active-player-o"
-            className={classNames("size-20 flex items-center justify-center", {
+            className={cn("size-20 flex items-center justify-center", {
               [styles.active]: !isXTurnSignal.value,
             })}
           >
@@ -90,7 +82,7 @@ function TicTacToe() {
         </motion.section>
         <motion.section
           variants={gameAnimationVariants}
-          className={classNames("flex flex-col gap-2", {
+          className={cn("flex flex-col gap-2", {
             [styles["game-over"]]: !!gameOver,
           })}
         >
@@ -101,9 +93,7 @@ function TicTacToe() {
         <motion.section variants={gameAnimationVariants}>
           {!!gameOver ? (
             <button
-              className={classNames(
-                "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg",
-              )}
+              className="px-4 py-2 text-sm font-light rounded-lg hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg"
               onClick={resetGame}
             >
               New game

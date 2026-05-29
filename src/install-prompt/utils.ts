@@ -17,7 +17,6 @@ const TIMING_CONSTANTS = {
   REPROMPT_INTERVAL: 7 * 24 * 60 * 60 * 1000, // 1 week
 } as const;
 
-// Default capabilities for SSR and initial state
 export const DEFAULT_INSTALL_CAPABILITIES: InstallCapabilities = {
   canInstall: false,
   installMethod: "none",
@@ -25,7 +24,6 @@ export const DEFAULT_INSTALL_CAPABILITIES: InstallCapabilities = {
   browserSupport: false,
 };
 
-// Device and browser detection
 export function detectDevice(): {
   isIOS: boolean;
   isAndroid: boolean;
@@ -39,7 +37,7 @@ export function detectDevice(): {
   const isAndroid = /Android/.test(navigator.userAgent);
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
-    (window.navigator as any).standalone === true ||
+    (window.navigator as { standalone?: boolean }).standalone === true ||
     document.referrer.includes("android-app://");
 
   return { isIOS, isAndroid, isStandalone };
@@ -51,20 +49,18 @@ export function getInstallCapabilities(): InstallCapabilities {
   }
 
   const { isIOS, isAndroid, isStandalone } = detectDevice();
+  const deviceType = isIOS || isAndroid ? "mobile" : "desktop";
 
   if (isStandalone) {
     return {
       canInstall: false,
       installMethod: "none",
-      deviceType: isIOS || isAndroid ? "mobile" : "desktop",
+      deviceType,
       browserSupport: true,
     };
   }
 
-  const deviceType = isIOS || isAndroid ? "mobile" : "desktop";
   const browserSupport = "serviceWorker" in navigator;
-
-  // Check if beforeinstallprompt is supported
   const supportsBeforeInstall =
     "BeforeInstallPromptEvent" in window ||
     navigator.userAgent.includes("Chrome") ||
@@ -84,7 +80,6 @@ export function getInstallCapabilities(): InstallCapabilities {
   return { canInstall, installMethod, deviceType, browserSupport };
 }
 
-// Timing and storage management
 export function getInstallTiming(): InstallPromptTiming {
   const defaultTiming: InstallPromptTiming = {
     visitCount: 0,
@@ -101,7 +96,6 @@ export function getInstallTiming(): InstallPromptTiming {
       return { ...defaultTiming, ...JSON.parse(stored) };
     }
 
-    // Check for legacy dismissal
     const legacyDismissed = localStorage.getItem(STORAGE_KEYS.DISMISSED);
     if (legacyDismissed === "true") {
       return { ...defaultTiming, dismissalType: "permanent" };
@@ -113,9 +107,11 @@ export function getInstallTiming(): InstallPromptTiming {
   return defaultTiming;
 }
 
-export function saveInstallTiming(timing: Partial<InstallPromptTiming>): void {
+export function saveInstallTiming(
+  timing: Partial<InstallPromptTiming>,
+  current: InstallPromptTiming = getInstallTiming(),
+): void {
   try {
-    const current = getInstallTiming();
     const updated = { ...current, ...timing };
     localStorage.setItem(STORAGE_KEYS.TIMING, JSON.stringify(updated));
   } catch (error) {
@@ -125,14 +121,15 @@ export function saveInstallTiming(timing: Partial<InstallPromptTiming>): void {
 
 export function incrementVisitCount(): void {
   const timing = getInstallTiming();
-  saveInstallTiming({ visitCount: timing.visitCount + 1 });
+  saveInstallTiming({ visitCount: timing.visitCount + 1 }, timing);
 }
 
 export function addEngagementTime(timeMs: number): void {
   const timing = getInstallTiming();
-  saveInstallTiming({
-    totalEngagementTime: timing.totalEngagementTime + timeMs,
-  });
+  saveInstallTiming(
+    { totalEngagementTime: timing.totalEngagementTime + timeMs },
+    timing,
+  );
 }
 
 export function markFirstGameCompleted(): void {
@@ -151,13 +148,11 @@ export function markPromptDismissed(
     dismissalType: type,
   });
 
-  // Keep legacy storage for backward compatibility
   if (type === "permanent") {
     localStorage.setItem(STORAGE_KEYS.DISMISSED, "true");
   }
 }
 
-// Timing logic
 export function shouldShowInstallPrompt(
   context: InstallPromptContext,
 ): boolean {
@@ -169,70 +164,54 @@ export function shouldShowInstallPrompt(
   const timing = getInstallTiming();
   const now = Date.now();
 
-  // Never show if permanently dismissed
   if (timing.dismissalType === "permanent") {
     return false;
   }
 
-  // Respect snooze period after temporary dismissal
   if (timing.dismissalType === "temporary" && timing.lastDismissalTime > 0) {
-    const timeSinceDismissal = now - timing.lastDismissalTime;
-    if (timeSinceDismissal < TIMING_CONSTANTS.SNOOZE_DURATION) {
+    if (now - timing.lastDismissalTime < TIMING_CONSTANTS.SNOOZE_DURATION) {
       return false;
     }
   }
 
-  // Respect reprompt interval
   if (timing.lastPromptTime > 0) {
-    const timeSinceLastPrompt = now - timing.lastPromptTime;
-    if (timeSinceLastPrompt < TIMING_CONSTANTS.REPROMPT_INTERVAL) {
+    if (now - timing.lastPromptTime < TIMING_CONSTANTS.REPROMPT_INTERVAL) {
       return false;
     }
   }
 
-  // Game page specific logic
   if (context.page === "game") {
-    // Only show after first game completion and only once per game completion
     return context.gameJustCompleted === true && !timing.hasCompletedFirstGame;
   }
 
-  // Homepage specific logic
   if (context.page === "homepage") {
-    // Never on first visit
     if (timing.visitCount < TIMING_CONSTANTS.MIN_VISIT_COUNT) {
       return false;
     }
-
-    // Require minimum engagement time
     if (timing.totalEngagementTime < TIMING_CONSTANTS.MIN_ENGAGEMENT_TIME) {
       return false;
     }
-
     return true;
   }
 
   return false;
 }
 
-// PWA installation utilities
-export function triggerInstall(
+export async function triggerInstall(
   installPromptEvent: BeforeInstallPromptEvent | null,
 ): Promise<boolean> {
-  return new Promise(async (resolve) => {
-    if (!installPromptEvent) {
-      resolve(false);
-      return;
-    }
+  if (!installPromptEvent) {
+    return false;
+  }
 
-    try {
-      await installPromptEvent.prompt();
-      const choiceResult = await installPromptEvent.userChoice;
-      resolve(choiceResult.outcome === "accepted");
-    } catch (error) {
-      console.warn("Install prompt error:", error);
-      resolve(false);
-    }
-  });
+  try {
+    await installPromptEvent.prompt();
+    const choiceResult = await installPromptEvent.userChoice;
+    return choiceResult.outcome === "accepted";
+  } catch (error) {
+    console.warn("Install prompt error:", error);
+    return false;
+  }
 }
 
 export function getInstallInstructions(): {

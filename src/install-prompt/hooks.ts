@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type {
   InstallPromptState,
   InstallPromptContext,
@@ -19,20 +19,18 @@ import {
 } from "./utils";
 
 export function useInstallPrompt(context: InstallPromptContext) {
+  const { page, gameJustCompleted } = context;
   const [state, setState] = useState<InstallPromptState>({
     isVisible: false,
     isStandalone: false,
     isIOS: false,
     isAndroid: false,
-    isDismissed: false,
     installPromptEvent: null,
     capabilities: DEFAULT_INSTALL_CAPABILITIES,
   });
 
   const [isInstalling, setIsInstalling] = useState(false);
-  const engagementStartTime = useRef<number>(Date.now());
 
-  // Initialize state on mount
   useEffect(() => {
     const { isIOS, isAndroid, isStandalone } = detectDevice();
     const capabilities = getInstallCapabilities();
@@ -42,26 +40,19 @@ export function useInstallPrompt(context: InstallPromptContext) {
       isIOS,
       isAndroid,
       isStandalone,
-      isDismissed: !capabilities.canInstall,
       capabilities,
     }));
 
-    // Track visit on homepage
-    if (context.page === "homepage") {
+    if (page === "homepage") {
       incrementVisitCount();
     }
 
-    // Track engagement time
     const startTime = Date.now();
-    engagementStartTime.current = startTime;
-
     return () => {
-      const engagementTime = Date.now() - startTime;
-      addEngagementTime(engagementTime);
+      addEngagementTime(Date.now() - startTime);
     };
-  }, [context.page]);
+  }, [page]);
 
-  // Listen for beforeinstallprompt event
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
@@ -72,8 +63,7 @@ export function useInstallPrompt(context: InstallPromptContext) {
         installPromptEvent: installEvent,
       }));
 
-      // Check if we should show the prompt based on timing logic
-      if (shouldShowInstallPrompt(context)) {
+      if (shouldShowInstallPrompt({ page, gameJustCompleted })) {
         setState((prev) => ({ ...prev, isVisible: true }));
         markPromptShown();
       }
@@ -87,35 +77,38 @@ export function useInstallPrompt(context: InstallPromptContext) {
         handleBeforeInstallPrompt,
       );
     };
-  }, [context]);
+  }, [page, gameJustCompleted]);
 
-  // Handle iOS timing (manual install instructions)
   useEffect(() => {
-    if (state.isIOS && !state.isStandalone) {
-      if (shouldShowInstallPrompt(context)) {
-        // Add delay for iOS to avoid overwhelming users
-        const timer = setTimeout(
-          () => {
-            setState((prev) => ({ ...prev, isVisible: true }));
-            markPromptShown();
-          },
-          context.page === "game" ? 1000 : 3000,
-        ); // Shorter delay after game completion
+    if (!state.isIOS || state.isStandalone) return;
+    if (!shouldShowInstallPrompt({ page, gameJustCompleted })) return;
 
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [state.isIOS, state.isStandalone, context]);
-
-  // Handle Android manual install
-  useEffect(() => {
-    if (state.isAndroid && !state.isStandalone && !state.installPromptEvent) {
-      if (shouldShowInstallPrompt(context)) {
+    const timer = setTimeout(
+      () => {
         setState((prev) => ({ ...prev, isVisible: true }));
         markPromptShown();
-      }
+      },
+      page === "game" ? 1000 : 3000,
+    );
+
+    return () => clearTimeout(timer);
+  }, [state.isIOS, state.isStandalone, page, gameJustCompleted]);
+
+  useEffect(() => {
+    if (!state.isAndroid || state.isStandalone || state.installPromptEvent) {
+      return;
     }
-  }, [state.isAndroid, state.isStandalone, state.installPromptEvent, context]);
+    if (!shouldShowInstallPrompt({ page, gameJustCompleted })) return;
+
+    setState((prev) => ({ ...prev, isVisible: true }));
+    markPromptShown();
+  }, [
+    state.isAndroid,
+    state.isStandalone,
+    state.installPromptEvent,
+    page,
+    gameJustCompleted,
+  ]);
 
   const handleInstall = useCallback(async () => {
     setIsInstalling(true);
@@ -139,29 +132,24 @@ export function useInstallPrompt(context: InstallPromptContext) {
 
   const handleDismiss = useCallback(
     (type: "temporary" | "permanent" = "temporary") => {
-      setState((prev) => ({
-        ...prev,
-        isVisible: false,
-        isDismissed: true,
-      }));
+      setState((prev) => ({ ...prev, isVisible: false }));
       markPromptDismissed(type);
     },
     [],
   );
 
   const showPrompt = useCallback(() => {
-    if (shouldShowInstallPrompt(context)) {
+    if (shouldShowInstallPrompt({ page, gameJustCompleted })) {
       setState((prev) => ({ ...prev, isVisible: true }));
       markPromptShown();
     }
-  }, [context]);
+  }, [page, gameJustCompleted]);
 
   const hidePrompt = useCallback(() => {
     setState((prev) => ({ ...prev, isVisible: false }));
   }, []);
 
   return {
-    // State
     isVisible: state.isVisible && !state.isStandalone,
     isStandalone: state.isStandalone,
     isIOS: state.isIOS,
@@ -170,18 +158,15 @@ export function useInstallPrompt(context: InstallPromptContext) {
     installMethod: state.capabilities.installMethod,
     isInstalling,
 
-    // Actions
     handleInstall,
     handleDismiss,
     showPrompt,
     hidePrompt,
 
-    // Install event for manual triggering
     installPromptEvent: state.installPromptEvent,
   };
 }
 
-// Lightweight hook for components that just need install capabilities
 export function useInstallCapabilities() {
   const [isStandalone, setIsStandalone] = useState(false);
   const [capabilities, setCapabilities] = useState(

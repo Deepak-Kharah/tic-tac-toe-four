@@ -2,29 +2,28 @@
 import { useState, useEffect } from "react";
 import TicTacToe from "./components/TicTacToe";
 import { InstallPrompt } from "@/install-prompt/components/InstallPrompt";
-import { board, winnerSignal } from "./signal";
+import { winnerSignal } from "./signal";
 import { effect } from "@preact/signals";
 
 function Game() {
   const [gameJustCompleted, setGameJustCompleted] = useState(false);
 
-  // Listen for game completion
   useEffect(() => {
-    return effect(() => {
-      if (winnerSignal.value && !gameJustCompleted) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const dispose = effect(() => {
+      if (winnerSignal.value) {
         setGameJustCompleted(true);
-        // Reset the flag after a short delay to allow the install prompt to trigger
-        const timer = setTimeout(() => {
-          setGameJustCompleted(false);
-        }, 5000);
-        return () => clearTimeout(timer);
-      }
-
-      if (!winnerSignal.value) {
+        // Re-arm the prompt window after 5s so a later win can trigger it again.
+        timer = setTimeout(() => setGameJustCompleted(false), 5000);
+      } else {
         setGameJustCompleted(false);
       }
     });
-  }, [gameJustCompleted]);
+    return () => {
+      dispose();
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <main className="flex-1" vaul-drawer-wrapper="">

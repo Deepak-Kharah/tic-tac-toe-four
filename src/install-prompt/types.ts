@@ -12,7 +12,6 @@ export interface InstallPromptState {
   isStandalone: boolean;
   isIOS: boolean;
   isAndroid: boolean;
-  isDismissed: boolean;
   installPromptEvent: BeforeInstallPromptEvent | null;
   capabilities: InstallCapabilities;
 }

@@ -150,6 +150,8 @@ $RECYCLE.BIN/
 # PWA generated files (next-pwa)
 public/sw.js
 public/workbox-*.js
+public/fallback-*.js
+public/swe-worker-*.js
 
 # testing
 /coverage

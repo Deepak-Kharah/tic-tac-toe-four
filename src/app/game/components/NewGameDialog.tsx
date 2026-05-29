@@ -22,7 +22,6 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 
-import classNames from "classnames";
 import { useMediaQuery } from "@/hooks/useMediaQuery.hook";
 
 interface NewGameDialogProps {
@@ -62,9 +61,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
       <Dialog open={open} onOpenChange={handleOpen}>
         <DialogTrigger
           data-testid="new-game-btn"
-          className={classNames(
-            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80",
-          )}
+          className="px-4 py-2 text-sm font-light rounded-lg hover:text-white hover:bg-blue-900 transition-all bg-gray-900/60 text-gray-500/80"
         >
           {triggerText}
         </DialogTrigger>
@@ -98,9 +95,7 @@ export function NewGameDialog(props: NewGameDialogProps) {
       <DrawerTrigger asChild>
         <DrawerTrigger
           data-testid="new-game-btn"
-          className={classNames(
-            "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900  transition-all bg-gray-900/60 text-gray-500/80",
-          )}
+          className="px-4 py-2 text-sm font-light rounded-lg hover:text-white hover:bg-blue-900 transition-all bg-gray-900/60 text-gray-500/80"
         >
           {triggerText}
         </DrawerTrigger>

@@ -1,0 +1,50 @@
+name: Autofix
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: autofix-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  autofix:
+    name: Auto-fix lint & format
+    runs-on: ubuntu-latest
+    # GITHUB_TOKEN can't push to a fork's branch, so only run for same-repo PRs.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    env:
+      HUSKY: 0
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply lint & format fixes
+        run: |
+          npm run lint:fix
+          npm run format
+
+      # Commits & pushes only if the fixers changed something.
+      # Pushed with GITHUB_TOKEN, so this commit will not re-trigger CI;
+      # if it fires under branch protection, re-run the Verify check once.
+      - name: Commit fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: apply automated lint and format fixes"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com

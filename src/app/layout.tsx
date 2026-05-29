@@ -1,5 +1,5 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={classNames(raleway.className, "flex flex-col")}>
+      <body className={cn(raleway.className, "flex flex-col")}>
         <nav className="font-extralight text-slate-400 py-4 px-3 bg-gradient-to-b from-slate-900/40 to-transparent">
           <div className="flex items-center justify-between max-w-4xl mx-auto">
             <ul className="flex gap-5 mx-auto justify-center">

@@ -2,7 +2,7 @@
 
 import { launchFirework, resetConfetti } from "@/lib/confetti";
 import { effect } from "@preact/signals";
-import classNames from "classnames";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, Variants, motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import {
@@ -62,7 +62,7 @@ function TicTacToe() {
         >
           <div
             data-testid="active-player-x"
-            className={classNames("size-20 flex items-center justify-center", {
+            className={cn("size-20 flex items-center justify-center", {
               [styles.active]: isXTurnSignal.value,
             })}
           >
@@ -73,7 +73,7 @@ function TicTacToe() {
           </div>
           <div
             data-testid="active-player-o"
-            className={classNames("size-20 flex items-center justify-center", {
+            className={cn("size-20 flex items-center justify-center", {
               [styles.active]: !isXTurnSignal.value,
             })}
           >
@@ -82,7 +82,7 @@ function TicTacToe() {
         </motion.section>
         <motion.section
           variants={gameAnimationVariants}
-          className={classNames("flex flex-col gap-2", {
+          className={cn("flex flex-col gap-2", {
             [styles["game-over"]]: !!gameOver,
           })}
         >
@@ -93,9 +93,7 @@ function TicTacToe() {
         <motion.section variants={gameAnimationVariants}>
           {!!gameOver ? (
             <button
-              className={classNames(
-                "px-4 py-2 text-sm font-light rounded-lg   hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg",
-              )}
+              className="px-4 py-2 text-sm font-light rounded-lg hover:text-white hover:bg-blue-900 transition-all bg-blue-900/70 text-slate-300 shadow-lg"
               onClick={resetGame}
             >
               New game

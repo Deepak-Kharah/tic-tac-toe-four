@@ -1,11 +1,10 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { effect } from "@preact/signals";
-import classNames from "classnames";
-import isEqual from "lodash.isequal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { didWin } from "../gameLogic";
-import { board, isXTurn, winnerSignal, history, disappearing } from "../signal";
+import { board, disappearing, history, isXTurn, winnerSignal } from "../signal";
 import { Circle, Cross } from "./Pieces";
 import styles from "./TicTacToe.module.css";
 
@@ -60,11 +59,18 @@ export function SingleCell(props: CellProps) {
 
   const [cell, setCell] = useState(board.value[row][col]);
 
-  effect(() => {
-    if (!isEqual(cell, board.value[row][col])) {
-      setCell(board.value[row][col]);
-    }
-  });
+  useEffect(() => {
+    return effect(() => {
+      const next = board.value[row][col];
+      setCell((prev) =>
+        prev.value === next.value &&
+        prev.willDisappear === next.willDisappear &&
+        prev.winningCell === next.winningCell
+          ? prev
+          : next,
+      );
+    });
+  }, [row, col]);
 
   return (
     <button
@@ -72,7 +78,7 @@ export function SingleCell(props: CellProps) {
       data-disappearing={cell.willDisappear || undefined}
       data-winning={cell.winningCell || undefined}
       data-value={cell.value || ""}
-      className={classNames(
+      className={cn(
         styles.cell,
         "gap-3 size-20 transition flex items-center justify-center",
         { [styles["winning-cell"]]: cell.winningCell },

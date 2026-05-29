@@ -11,7 +11,6 @@ export function InstallButton() {
   const [installEvent, setInstallEvent] =
     useState<BeforeInstallPromptEvent | null>(null);
 
-  // Listen for install prompt event
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
@@ -36,7 +35,6 @@ export function InstallButton() {
     }
   };
 
-  // Don't show if app is already installed or can't be installed
   if (!canInstall || isStandalone) {
     return null;
   }

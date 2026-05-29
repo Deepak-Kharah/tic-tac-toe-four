@@ -1,11 +1,21 @@
-import withPWA from "next-pwa";
+import withPWAInit from "@ducanh2912/next-pwa";
+
+const withPWA = withPWAInit({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: false,
+  workboxOptions: {
+    skipWaiting: true,
+  },
+  fallbacks: {
+    document: "/offline",
+  },
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-export default withPWA({
-  dest: "public", // destination directory for the PWA files
-  disable: process.env.NODE_ENV === "development", // disable PWA in the development environment
-  register: true, // register the PWA service worker
-  skipWaiting: true, // skip waiting for service worker activation
-})(nextConfig);
+export default withPWA(nextConfig);
